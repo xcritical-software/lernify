@@ -1,0 +1,21 @@
+{
+  "packages": [
+    "commands/*",
+    "core/*",
+    "packages/**"
+  ],
+  "command": {
+    "create": {
+      "homepage": "https://github.com/lerna/lerna",
+      "license": "MIT"
+    },
+    "version": {
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "exact": true,
+      "gitRemote": "upstream",
+      "message": "chore(release): %s"
+    }
+  },
+  "version": "3.22.1"
+}
