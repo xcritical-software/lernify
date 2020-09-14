@@ -24,35 +24,35 @@ module.exports.getScopeFromJiraByFixVersion = async ({ userName, token, jiraFixV
   const result = await request.json()
 
   if (result.errorMessages) return result;
-  
+
   const labelsByPattern = [];
-  
+
   const mappedIssues = result.issues.map((issue) => {
-    const { 
-      fields: { labels, summary, status, assignee }, 
+    const {
+      fields: { labels, summary, status, assignee },
       key
     } = issue;
     const statusName = status.name;
     const assigneeName = assignee.displayName;
-    
-    const _labelsByPattern = jiraLabelPattern 
-      ? multimatch(labels, jiraLabelPattern) 
+
+    const _labelsByPattern = jiraLabelPattern
+      ? multimatch(labels, jiraLabelPattern)
       : labels;
 
     labelsByPattern.push(..._labelsByPattern);
-    
-    return { 
-      key, 
+
+    return {
+      key,
       labels,
-      summary, 
-      status: statusName, 
+      summary,
+      status: statusName,
       assignee: assigneeName,
       hasLabelsByPattern: !!_labelsByPattern.length
     };
   });
 
   return {
-    labels: labelsByPattern, 
+    labels: labelsByPattern,
     issues: mappedIssues
   }
 }
