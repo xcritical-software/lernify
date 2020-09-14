@@ -33,3 +33,4 @@ coverage/
 
 **/dist/*
 dist/*
+mocks.js

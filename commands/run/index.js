@@ -10,18 +10,67 @@ const timer = require("@lerna/timer");
 const runTopologically = require("@lerna/run-topologically");
 const ValidationError = require("@lerna/validation-error");
 const { getFilteredPackages } = require("@lerna/filter-options");
-const { getScopeFromJiraByFixVersion, toArray } = require('../../utils')
+const { getScopeFromJiraByFixVersion } = require('../../utils')
 
 module.exports = factory;
 
-const coloredStatus = test => test;
 const toNotLinkedPackageWarnMessage = jiraLabelPattern => ({ key, summary, status, assignee }) => {
-  return `Issue ${key} ${summary} (Status: ${coloredStatus(status)}, Assignee: ${assignee}) has not linked package${jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ''}.`
+  return `Issue ${key} ${summary} (Status: ${status}, Assignee: ${assignee}) has not linked package${jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ''}.`
+}
+
+const dummyLogger = {
+  notice: () => {}
 }
 
 function factory(argv) {
   return new RunCommand(argv);
 }
+
+function showLinkedIssuesMessage (issues, jiraLabelPattern) {
+  const issuesWithoutLabels = issues.filter(({ hasLabelsByPattern }) => !hasLabelsByPattern);
+
+  if (issuesWithoutLabels.length) {
+    const text = issuesWithoutLabels.map(toNotLinkedPackageWarnMessage(jiraLabelPattern));
+    this.logger.warn('','Issues without label by pattern: ');
+
+    text.forEach(text => {
+      this.logger.useColor();
+      this.logger.warn('',text)
+    });
+
+  } else {
+    this.logger.success('','All issues has linked packages!');
+  }
+};
+
+function needShowOtherOptions() {
+  const otherFilterOption =
+     this.options.scope
+  || this.options.ignore
+  || this.options.private
+  || this.options.since
+  || this.options.excludeDependents
+  || this.options.includeDependents
+  || this.options.includeDependencies
+  || this.options.includeMergedTags;
+  return !!otherFilterOption
+}
+
+/*
+задачи без лейблов
+пакеты по джире
+пакеты найденные по опциям // this.scope || this.
+пакеты на которых запустится
+
+по джире - на которых запустится  = прилинкованы в джире,
+  но пакет отсутствует в репозитории или у него отсутствет команда (комманд)
+
+найденные по опциям - по джире = переданы в опциях, но отсутствуют в джира, // this.scope || this.
+
+найденные по опциям - на которых запустится = переданы в опциях,
+  но не прилинкованы в джире но отсутствует пакет отсутствует в репозитории или у него отсутствет команда (комманд) //this.scope
+
+*/
 
 class RunCommand extends Command {
   get requiresGit() {
@@ -31,6 +80,7 @@ class RunCommand extends Command {
   async initialize() {
     const { script, npmClient = "npm" } = this.options;
 
+    this.options.log = dummyLogger;
     this.script = script;
     this.args = this.options["--"] || [];
     this.npmClient = npmClient;
@@ -44,63 +94,66 @@ class RunCommand extends Command {
     this.prefix = this.options.prefix !== false;
 
     let chain = Promise.resolve();
-
     const { userName, token, jiraFixVersion, jiraLabelPattern } = this.options;
 
-    if (jiraFixVersion && (!userName || !token)) {
-      throw Error('UserName and token is required for get scope by jiraFixVersion');
-    };
-
     let filteredOptions = this.options;
-
+    let filteredPackages = null;
     if (jiraFixVersion) {
-      const { labels, issues } = await getScopeFromJiraByFixVersion({ userName, token, jiraFixVersion, jiraLabelPattern });
+      if (!userName || !token) throw Error('UserName and token is required for get scope by jiraFixVersion');
 
+      const allPackages = [...this.packageGraph].map(([name]) => name);
+      const { labels, issues } = await getScopeFromJiraByFixVersion({ userName, token, jiraFixVersion, jiraLabelPattern });
       filteredOptions = {
         scope: labels,
-        continueIfNoMatch: true
+        continueIfNoMatch: true,
+        log: dummyLogger
       };
 
-      console.log(`Jira linked packages: `, labels.join(', '));
+      filteredPackages = await getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions);
 
-      const issuesWithoutLabels = issues.filter(({ hasLabelsByPattern }) => !hasLabelsByPattern);
+      showLinkedIssuesMessage.apply(this, [issues, jiraLabelPattern]);
 
-      if (issuesWithoutLabels.length) {
-        const text = issuesWithoutLabels.map(toNotLinkedPackageWarnMessage(jiraLabelPattern)).join('\n\r');
-        console.log(text);
-      } else {
-        console.log('All issues has linked packages!')
+      this.logger.info('',`Jira linked packages: ` + labels.join(', '));
+
+      const inJiraButNotExists = labels.filter(pkg => !allPackages.includes(pkg));
+      if (inJiraButNotExists.length) {
+        this.logger.warn('', `Linked packages is not exists in project: %j`, inJiraButNotExists.join(', '))
       }
-      console.log('!!!labels', labels);
-      // TODO посмотреть где выводятся сообщения внутри filteredOptions, их желательно убрать
-      const filteredPackagesJira = await getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions);
-      console.log('!!!74filteredPackagesJira', filteredPackagesJira)
-      // тут у нас те которые получилось найти в репозитории, из тех что пришли с джиры. если есть разница - вывести разницу (в репозитории отсутствуют пакеты: ), иначе сказать что все пакеты присутствуют в репозитории
-      /* показать разницу между пакетами из jira (labels) и между тем что есть в проекте (filteredPackagesJira) */
 
 
-      const filteredPackagesOptions = await getFilteredPackages(this.packageGraph, this.execOpts, this.options)
-      console.log('!!!filteredPackagesOptions', filteredPackagesOptions)
-      // тут у нас пакеты которые по опциям остальным. если есть разница с теми что пришло в jira - показать(в jira не прилинкованы пакеты: ), иначе сказать что пакеты по остальным опциям соответствуют тем что в jira прилинкованы
-      // показать разницу между пакетами из jira (labels) и тем что получилось после фильтра по опциям (filteredPackagesOptions)
+      const filteredPackagesOtherOpts = await getFilteredPackages(
+        this.packageGraph,
+        this.execOpts,
+        this.options
+        );
 
+        if (needShowOtherOptions.call(this)) {
+          this.logger.info('','Packages by other options: ' + filteredPackagesOtherOpts.map(({ name }) => name).join(', '))
 
-      /*
-      вывести 3 списка
-      command ${script} will be run at ${filteredPackagesJira}
-      linked packages: ${labels}
-      filtered by other props: ${filteredPackagesOptions}
-      */
+          const inOtherOptsNotInJira = filteredPackagesOtherOpts
+            .map(pkg => pkg.name)
+            .filter(pkg => !labels.includes(pkg));
 
+          if (inOtherOptsNotInJira.length) {
+            this.logger.warn('', `Packages filtered by other options is not linked in jira: %j`, inOtherOptsNotInJira.join(', '))
+          }
+
+      };
+
+      } else {
+      filteredPackages = await getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions);
     }
 
-    chain = chain.then(() => getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions));
-    chain = chain.then(filteredPackages => {
+
+
+
+    chain = chain.then(() => {
       this.packagesWithScript =
-        script === "env"
-          ? filteredPackages
-          : filteredPackages.filter(pkg => pkg.scripts && pkg.scripts[script]);
+      script === "env"
+      ? filteredPackages
+      : filteredPackages.filter(pkg => pkg.scripts && pkg.scripts[script]);
     });
+
 
     return chain.then(() => {
       this.count = this.packagesWithScript.length;
@@ -112,6 +165,8 @@ class RunCommand extends Command {
 
         // still exits zero, aka "ok"
         return false;
+      } else {
+        this.logger.notice('filter', 'including %j', this.packagesWithScript.map(p => p.name))
       }
     });
   }
