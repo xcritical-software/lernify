@@ -46,17 +46,17 @@ class RunCommand extends Command {
     let chain = Promise.resolve();
 
     const { userName, token, jiraFixVersion, jiraLabelPattern } = this.options;
-    console.log(jiraFixVersion)
+
     if (jiraFixVersion && (!userName || !token)) {
       throw Error('UserName and token is required for get scope by jiraFixVersion');
     };
-    
+
     let filteredOptions = this.options;
 
     if (jiraFixVersion) {
       const { labels, issues } = await getScopeFromJiraByFixVersion({ userName, token, jiraFixVersion, jiraLabelPattern });
       labels.push('package-3', 'package-5')
-      filteredOptions = { 
+      filteredOptions = {
         scope: labels,
         continueIfNoMatch: true
       };
@@ -78,10 +78,10 @@ class RunCommand extends Command {
       // тут у нас те которые получилось найти в репозитории, из тех что пришли с джиры. если есть разница - вывести разницу (в репозитории отсутствуют пакеты: ), иначе сказать что все пакеты присутствуют в репозитории
       /* показать разницу между пакетами из jira (labels) и между тем что есть в проекте (filteredPackagesJira) */
 
-      
+
       const filteredPackagesOptions = await getFilteredPackages(this.packageGraph, this.execOpts, this.options)
       console.log('!!!filteredPackagesOptions', filteredPackagesOptions)
-      // тут у нас пакеты которые по опциям остальным. если есть разница с теми что пришло в jira - показать(в jira не прилинкованы пакеты: ), иначе сказать что пакеты по остальным опциям соответствуют тем что в jira прилинкованы 
+      // тут у нас пакеты которые по опциям остальным. если есть разница с теми что пришло в jira - показать(в jira не прилинкованы пакеты: ), иначе сказать что пакеты по остальным опциям соответствуют тем что в jira прилинкованы
       // показать разницу между пакетами из jira (labels) и тем что получилось после фильтра по опциям (filteredPackagesOptions)
 
 
@@ -93,7 +93,7 @@ class RunCommand extends Command {
       */
 
     }
-    
+
     chain = chain.then(() => getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions));
     chain = chain.then(filteredPackages => {
       this.packagesWithScript =
