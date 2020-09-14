@@ -55,7 +55,7 @@ class RunCommand extends Command {
 
     if (jiraFixVersion) {
       const { labels, issues } = await getScopeFromJiraByFixVersion({ userName, token, jiraFixVersion, jiraLabelPattern });
-      labels.push('package-3', 'package-5')
+
       filteredOptions = {
         scope: labels,
         continueIfNoMatch: true
