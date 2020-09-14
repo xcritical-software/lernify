@@ -70,9 +70,9 @@ const jiraApiObjCreator = (issues = {}) => {
       fields: {
         labels: labels,
         summary: `This is test issue to ${labels.join(', ')} labels`,
-        status: 'Closed',
+        status: {name: 'Closed'} ,
         assignee: {
-          name: 'Gnom Gnomich'
+          displayName: 'Gnom Gnomich'
         }
       },
       key: `DUMMY-CRM-${number}`

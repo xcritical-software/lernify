@@ -133,8 +133,8 @@ class RunCommand extends Command {
           const inOtherOptsNotInJira = filteredPackagesOtherOpts
             .map(pkg => pkg.name)
             .filter(pkg => !labels.includes(pkg));
-
-          if (inOtherOptsNotInJira.length) {
+            if (inOtherOptsNotInJira.length) {
+              // не верно работает
             this.logger.warn('', `Packages filtered by other options is not linked in jira: %j`, inOtherOptsNotInJira.join(', '))
           }
 

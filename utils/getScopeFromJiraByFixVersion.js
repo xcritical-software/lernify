@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
-/* tests */
-const jiraFixVersions = require('../mocks');
+/* test data */
+const { jiraFixVersions } = require('../mocks');
 
 const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
 
@@ -26,7 +26,6 @@ module.exports.getScopeFromJiraByFixVersion = async ({ userName, token, jiraFixV
   // const request = await createRequest({ userName, token, jiraFixVersion });
   // const result = await request.json()
   const result = jiraFixVersions[jiraFixVersion];
-  console.log(result)
 
   if (result.errorMessages) return result;
 
