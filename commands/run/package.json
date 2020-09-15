@@ -8,10 +8,6 @@
   ],
   "homepage": "https://github.com/lerna/lerna/tree/master/commands/run#readme",
   "license": "MIT",
-  "author": {
-    "name": "Daniel Stockman",
-    "url": "https://github.com/evocateur"
-  },
   "files": [
     "command.js",
     "index.js"

@@ -2,28 +2,28 @@ const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
 /* test data */
-const { jiraFixVersions } = require('../mocks');
+const { jiraFixVersions } = require('./mocks');
 
 const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
 
-const getHeaders = ({ userName, token }) => {
+const getHeaders = ({ jiraUserName, jiraToken }) => {
   return {
       'Authorization': `Basic ${Buffer.from(
-        `${userName}:${token}`
+        `${jiraUserName}:${jiraToken}`
       ).toString('base64')}`,
       'Accept': 'application/json'
     }
 }
-const createRequest = async ({ userName, token, jiraFixVersion }) => {
+const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
   const _url = `${domen}search?jql=fixVersion=${jiraFixVersion}`;
   return await fetch(_url, {
     method: 'GET',
-    headers: getHeaders({ userName, token })
+    headers: getHeaders({ jiraUserName, jiraToken })
   })
 }
 
-module.exports.getScopeFromJiraByFixVersion = async ({ userName, token, jiraFixVersion, jiraLabelPattern }) => {
-  // const request = await createRequest({ userName, token, jiraFixVersion });
+module.exports.getScopeFromJiraByFixVersion = async ({ jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern }) => {
+  // const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
   // const result = await request.json()
   const result = jiraFixVersions[jiraFixVersion];
 

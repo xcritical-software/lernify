@@ -14,7 +14,7 @@ const {
   getScopeFromJiraByFixVersion, 
   needShowOtherOptions, 
   showLinkedIssuesMessage 
-} = require("../../utils");
+} = require("lernify-utils");
 
 module.exports = factory;
 
@@ -51,20 +51,20 @@ class RunCommand extends Command {
     this.prefix = this.options.prefix !== false;
 
     let chain = Promise.resolve();
-    const { userName, token, jiraFixVersion, jiraLabelPattern } = this.options;
+    const { jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern } = this.options;
 
     let filteredOptions = this.options;
     let filteredPackages = null;
     this.allPackages = [...this.packageGraph].map(([name]) => name);
     if (jiraFixVersion) {
-      if (!userName || !token)
+      if (!jiraUserName || !jiraToken)
         throw Error(
-          "UserName and token is required for get scope by jiraFixVersion"
+          "jiraUserName and jiraToken is required for get scope by jiraFixVersion"
         );
 
       const { labels, issues } = await getScopeFromJiraByFixVersion({
-        userName,
-        token,
+        jiraUserName,
+        jiraToken,
         jiraFixVersion,
         jiraLabelPattern,
       });
