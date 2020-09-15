@@ -159,7 +159,7 @@ class RunCommand extends Command {
 
         this.logger.notice("filter", "including %j", including);
 
-        excluding.length && this.logger.notice("", "excluding %j", excluding);
+        excluding.length && this.logger.silly("", "excluding %j", excluding);
       }
     });
   }
