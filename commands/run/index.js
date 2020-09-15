@@ -100,8 +100,8 @@ class RunCommand extends Command {
     let filteredPackages = null;
     if (jiraFixVersion) {
       if (!userName || !token) throw Error('UserName and token is required for get scope by jiraFixVersion');
-
-      const allPackages = [...this.packageGraph].map(([name]) => name);
+      
+      this.allPackages = [...this.packageGraph].map(([name]) => name);
       const { labels, issues } = await getScopeFromJiraByFixVersion({ userName, token, jiraFixVersion, jiraLabelPattern });
       filteredOptions = {
         scope: labels,
@@ -113,11 +113,11 @@ class RunCommand extends Command {
 
       showLinkedIssuesMessage.apply(this, [issues, jiraLabelPattern]);
 
-      this.logger.info('',`Jira linked packages: ` + labels.join(', '));
+      this.logger.info('',`Jira linked packages: ` + labels);
 
-      const inJiraButNotExists = labels.filter(pkg => !allPackages.includes(pkg));
+      const inJiraButNotExists = labels.filter(pkg => !this.allPackages.includes(pkg));
       if (inJiraButNotExists.length) {
-        this.logger.warn('', `Linked packages is not exists in project: %j`, inJiraButNotExists.join(', '))
+        this.logger.warn('', `Linked packages is not exists in project: %j`, inJiraButNotExists)
       }
 
 
@@ -128,14 +128,14 @@ class RunCommand extends Command {
         );
 
         if (needShowOtherOptions.call(this)) {
-          this.logger.info('','Packages by other options: ' + filteredPackagesOtherOpts.map(({ name }) => name).join(', '))
+          this.logger.info('','Packages by other options: ' + filteredPackagesOtherOpts.map(({ name }) => name))
 
           const inOtherOptsNotInJira = filteredPackagesOtherOpts
             .map(pkg => pkg.name)
             .filter(pkg => !labels.includes(pkg));
             if (inOtherOptsNotInJira.length) {
               // не верно работает
-            this.logger.warn('', `Packages filtered by other options is not linked in jira: %j`, inOtherOptsNotInJira.join(', '))
+            this.logger.warn('', `Packages filtered by other options is not linked in jira: %j`, inOtherOptsNotInJira)
           }
 
       };
@@ -144,29 +144,32 @@ class RunCommand extends Command {
       filteredPackages = await getFilteredPackages(this.packageGraph, this.execOpts, filteredOptions);
     }
 
-
-
-
+    
     chain = chain.then(() => {
       this.packagesWithScript =
       script === "env"
       ? filteredPackages
       : filteredPackages.filter(pkg => pkg.scripts && pkg.scripts[script]);
     });
-
-
+    
+    
     return chain.then(() => {
       this.count = this.packagesWithScript.length;
       this.packagePlural = this.count === 1 ? "package" : "packages";
       this.joinedCommand = [this.npmClient, "run", this.script].concat(this.args).join(" ");
-
+      
       if (!this.count) {
         this.logger.success("run", `No packages found with the lifecycle script '${script}'`);
-
+        
         // still exits zero, aka "ok"
         return false;
       } else {
-        this.logger.notice('filter', 'including %j', this.packagesWithScript.map(p => p.name))
+        const including = this.packagesWithScript.map(p => p.name)
+        const excluding = this.allPackages.filter(pkg => !including.includes(pkg));
+        
+        this.logger.notice('filter', 'including %j', including);
+
+        excluding.length && this.logger.notice('', 'excluding %j', excluding);
       }
     });
   }

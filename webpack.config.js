@@ -6,6 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 
 module.exports.createConfig = ({ port, template, projectPath }) => {
+
   const plugins = [
     new CleanWebpackPlugin(),
   ];
@@ -21,6 +22,7 @@ module.exports.createConfig = ({ port, template, projectPath }) => {
 
   return {
   mode: "development",
+  stats: 'errors-only',
   entry: path.join(projectPath, "app", "index"),
   // watch: true,
   output: {

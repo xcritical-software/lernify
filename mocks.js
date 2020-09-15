@@ -1,23 +1,15 @@
 /* exists */
-const project1 = 'project-1';
-const project2 = 'project-2';
-const project3 = 'project-3';
-const project4 = 'project-4';
-const project5 = 'project-5';
+const project1 = 'package-1';
+const project2 = 'package-2';
+const project3 = 'package-3';
+const project4 = 'package-4';
+const project5 = 'package-5';
 
 /* not exists */
-const project6 = 'project-6';
-const project7 = 'project-7';
+const project6 = 'package-6';
+const project7 = 'package-7';
 
-let i = 100;
-// все пакеты, всё прилинковано
-// 1ого пакета не хватает, всё прилинковано
-// 6 пакет не существует, всё прилинковано
-// 6 и 7 пакет не существует, всё прилинковано
-// 2ого пакета не хватает, задача не прилинкована
-// 2ого пакета не хватает, 6 и 7 не существует, задача не прилинкована
-
-
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 1.0.0
 const release1 = {
   100: [project1],
   101: [project2],
@@ -25,6 +17,14 @@ const release1 = {
   103: [project4],
   104: [project5],
 }// все пакеты, всё прилинковано
+// lerna info filter [ 'package-1', 'package-2', 'package-3', 'package-4', 'package-5' ]
+// lerna success All issues has linked packages!
+// lerna info Jira linked packages: package-1, package-2, package-3, package-4, package-5
+// lerna notice filter including ["package-1","package-2","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna"]
+// lerna info Executing command in 5 packages: "npm run build"
+
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 2.0.0
 const release2 = {
   105: [project2],
   106: [project2],
@@ -32,6 +32,14 @@ const release2 = {
   108: [project4],
   109: [project5],
 }// 1ого пакета не хватает, всё прилинковано
+// lerna info filter [ 'package-2', 'package-2', 'package-3', 'package-4', 'package-5' ]
+// lerna success All issues has linked packages!
+// lerna info Jira linked packages: package-2, package-2, package-3, package-4, package-5
+// lerna notice filter including ["package-2","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna","package-1"]
+// lerna info Executing command in 4 packages: "npm run build"
+
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 3.0.0
 const release3 = {
   110: [project1],
   111: [project2],
@@ -39,6 +47,14 @@ const release3 = {
   113: [project4, project6],
   114: [project5],
 }// 6 пакет не существует, всё прилинковано
+// lerna success All issues has linked packages!
+// lerna info Jira linked packages: package-1, package-2, package-3, package-4, package-6, package-5
+// lerna WARN Linked packages is not exists in project: "package-6"
+// lerna notice filter including ["package-1","package-2","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna"]
+// lerna info Executing command in 5 packages: "npm run build"
+
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 4.0.0
 const release4 = {
   115: [project1],
   116: [project2, project7],
@@ -46,6 +62,14 @@ const release4 = {
   118: [project4, project6],
   119: [project5],
 } // 6 и 7 пакет не существует, всё прилинковано
+// lerna success All issues has linked packages!
+// lerna info Jira linked packages: package-1,package-2,package-7,package-3,package-4,package-6,package-5
+// lerna WARN Linked packages is not exists in project: ["package-7","package-6"]
+// lerna notice filter including ["package-1","package-2","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna"]
+// lerna info Executing command in 5 packages: "npm run build"
+
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 5.0.0
 const release5 = {
   120: [project1],
   121: [],
@@ -53,6 +77,14 @@ const release5 = {
   123: [project4],
   124: [project5],
 } // 2ого пакета не хватает, задача не прилинкована
+// lerna WARN Issues without label by pattern:
+// lerna WARN Issue DUMMY-CRM-121 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna info Jira linked packages: package-1,package-3,package-4,package-5
+// lerna notice filter including ["package-1","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna","package-2"]
+// lerna info Executing command in 4 packages: "npm run build"
+
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 6.0.0
 const release6 = {
   125: [project1],
   126: [],
@@ -60,9 +92,43 @@ const release6 = {
   128: [project5],
   129: [project3, project7, project6],
 } // 2ого пакета не хватает, 6 и 7 не существует, задача не прилинкована
+// lerna WARN Issues without label by pattern:
+// lerna WARN Issue DUMMY-CRM-126 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna info Jira linked packages: package-1,package-4,package-5,package-3,package-7,package-6
+// lerna WARN Linked packages is not exists in project: ["package-7","package-6"]
+// lerna notice filter including ["package-1","package-3","package-4","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna","package-2"]
+// lerna info Executing command in 4 packages: "npm run build"
 
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 7.0.0
+const release7 = {
+  130: [project1],
+  131: [],
+  132: [],
+  133: [project5],
+  134: [project7, project6],
+} // 2-3-4 пакета не хватает, 6 и 7 не существует, задача не прилинкована, 
+// lerna WARN Issues without label by pattern:
+// lerna WARN Issue DUMMY-CRM-131 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna WARN Issue DUMMY-CRM-132 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna info Jira linked packages: package-1,package-5,package-7,package-6
+// lerna WARN Linked packages is not exists in project: ["package-7","package-6"]
+// lerna notice filter including ["package-1","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna","package-2","package-3","package-4"]
+// lerna info Executing command in 2 packages: "npm run build"
 
-
+// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 7.0.0 --scope package-1 --scope package-3
+// lerna WARN Issues without label by pattern:
+// lerna WARN Issue DUMMY-CRM-131 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna WARN Issue DUMMY-CRM-132 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
+// lerna info Jira linked packages: package-1,package-5,package-7,package-6
+// lerna WARN Linked packages is not exists in project: ["package-7","package-6"]
+// lerna info filter [ 'package-1', 'package-3' ]
+// lerna info Packages by other options: package-1,package-3
+// lerna WARN Packages filtered by other options is not linked in jira: ["package-3"]
+// lerna notice filter including ["package-1","package-5"]
+// lerna notice excluding ["@xc-lerna/run","lerna","package-2","package-3","package-4"]
+// lerna info Executing command in 2 packages: "npm run build"
 
 const jiraApiObjCreator = (issues = {}) => {
   const mappedIssues = Object.entries(issues).map(([number, labels]) => {
@@ -90,4 +156,5 @@ module.exports.jiraFixVersions = {
   '4.0.0': jiraApiObjCreator(release4),
   '5.0.0': jiraApiObjCreator(release5),
   '6.0.0': jiraApiObjCreator(release6),
+  '7.0.0': jiraApiObjCreator(release7),
 };
