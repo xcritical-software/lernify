@@ -77,11 +77,11 @@ exports.builder = yargs => {
         describe: 'Pattern for filter labels',
         type: 'string'        
       },
-      userName: {
+      jiraUserName: {
         describe: 'Jira userName (for get linked labels from jira)',
         type: 'string'
       },
-      token: {
+      jiraToken: {
         describe: 'Jira API token (for get linked labels from jira) https://id.atlassian.com/manage-profile/security/api-tokens',
         type: 'string'
       }

@@ -9,7 +9,7 @@ const project5 = 'package-5';
 const project6 = 'package-6';
 const project7 = 'package-7';
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 1.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 1.0.0
 const release1 = {
   100: [project1],
   101: [project2],
@@ -24,7 +24,7 @@ const release1 = {
 // lerna notice excluding ["@xc-lerna/run","lerna"]
 // lerna info Executing command in 5 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 2.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 2.0.0
 const release2 = {
   105: [project2],
   106: [project2],
@@ -39,7 +39,7 @@ const release2 = {
 // lerna notice excluding ["@xc-lerna/run","lerna","package-1"]
 // lerna info Executing command in 4 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 3.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 3.0.0
 const release3 = {
   110: [project1],
   111: [project2],
@@ -54,7 +54,7 @@ const release3 = {
 // lerna notice excluding ["@xc-lerna/run","lerna"]
 // lerna info Executing command in 5 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 4.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 4.0.0
 const release4 = {
   115: [project1],
   116: [project2, project7],
@@ -69,7 +69,7 @@ const release4 = {
 // lerna notice excluding ["@xc-lerna/run","lerna"]
 // lerna info Executing command in 5 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 5.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 5.0.0
 const release5 = {
   120: [project1],
   121: [],
@@ -84,7 +84,7 @@ const release5 = {
 // lerna notice excluding ["@xc-lerna/run","lerna","package-2"]
 // lerna info Executing command in 4 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 6.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 6.0.0
 const release6 = {
   125: [project1],
   126: [],
@@ -100,7 +100,7 @@ const release6 = {
 // lerna notice excluding ["@xc-lerna/run","lerna","package-2"]
 // lerna info Executing command in 4 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 7.0.0
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 7.0.0
 const release7 = {
   130: [project1],
   131: [],
@@ -117,7 +117,7 @@ const release7 = {
 // lerna notice excluding ["@xc-lerna/run","lerna","package-2","package-3","package-4"]
 // lerna info Executing command in 2 packages: "npm run build"
 
-// node .\core\lerna\cli.js run build --userName s --token 1 --jiraFixVersion 7.0.0 --scope package-1 --scope package-3
+// node .\core\lerna\cli.js run build --jiraUserName s --jiraToken 1 --jiraFixVersion 7.0.0 --scope package-1 --scope package-3
 // lerna WARN Issues without label by pattern:
 // lerna WARN Issue DUMMY-CRM-131 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
 // lerna WARN Issue DUMMY-CRM-132 This is test issue to  labels (Status: Closed, Assignee: Gnom Gnomich) has not linked package.
