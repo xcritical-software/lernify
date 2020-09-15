@@ -55,13 +55,13 @@ class RunCommand extends Command {
 
     let filteredOptions = this.options;
     let filteredPackages = null;
+    this.allPackages = [...this.packageGraph].map(([name]) => name);
     if (jiraFixVersion) {
       if (!userName || !token)
         throw Error(
           "UserName and token is required for get scope by jiraFixVersion"
         );
 
-      this.allPackages = [...this.packageGraph].map(([name]) => name);
       const { labels, issues } = await getScopeFromJiraByFixVersion({
         userName,
         token,
