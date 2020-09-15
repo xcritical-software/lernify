@@ -1,5 +1,5 @@
 {
-  "name": "lerna",
+  "name": "lernify",
   "version": "3.22.1",
   "description": "A tool for managing JavaScript projects with multiple packages.",
   "keywords": [
@@ -14,7 +14,7 @@
     "email": "sebmck@gmail.com"
   },
   "bin": {
-    "lerna": "cli.js"
+    "lernify": "cli.js"
   },
   "files": [
     "index.js",
@@ -46,7 +46,7 @@
     "@lerna/link": "3.21.0",
     "@lerna/list": "3.21.0",
     "@lerna/publish": "3.22.0",
-    "@xc-lerna/run": "1.0.0",
+    "@lernify/run": "1.0.0",
     "@lerna/version": "3.22.1",
     "import-local": "2.0.0",
     "npmlog": "4.1.2"

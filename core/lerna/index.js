@@ -15,7 +15,7 @@ const initCmd = require("@lerna/init/command");
 const linkCmd = require("@lerna/link/command");
 const listCmd = require("@lerna/list/command");
 const publishCmd = require("@lerna/publish/command");
-const runCmd = require("../../commands/run/command");
+const runCmd = require("@lernify/run/command");
 const versionCmd = require("@lerna/version/command");
 
 const pkg = require("./package.json");

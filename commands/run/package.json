@@ -1,5 +1,5 @@
 {
-  "name": "@xc-lerna/run",
+  "name": "@lernify/run",
   "version": "1.0.0",
   "description": "Run an npm script in each package that contains that script",
   "keywords": [

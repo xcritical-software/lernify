@@ -7,7 +7,7 @@
   "repository": {},
   "license": "MIT",
   "bin": {
-    "lerna": "core/lerna/cli.js"
+    "lernify": "core/lerna/cli.js"
   },
   "dependencies": {
     "multimatch": "^4.0.0",
@@ -23,5 +23,10 @@
   },
   "engines": {
     "node": ">= 6.9.0"
-  }
+  },
+  "workspaces": [
+    "commands/*",
+    "core/*",
+    "packages/**"
+  ]
 }
