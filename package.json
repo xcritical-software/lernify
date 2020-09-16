@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "XC lerna",
   "private": true,
-  "scripts": {},
   "repository": {},
   "license": "MIT",
   "bin": {
     "lernify": "core/lerna/cli.js"
+  },
+  "scripts": {
+    "test": "jest"
   },
   "dependencies": {
     "multimatch": "^4.0.0",
@@ -19,7 +21,9 @@
     "html-webpack-plugin": "^4.4.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "jest": "^24.9.0",
+    "fast-async": "^7.0.6"
   },
   "engines": {
     "node": ">= 6.9.0"

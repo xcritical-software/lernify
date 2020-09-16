@@ -1,0 +1,8 @@
+{
+  "name": "package-2",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "echo start package-2",
+    "build": "echo build package-2"
+  }
+}
