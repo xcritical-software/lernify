@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
 /* test data */
-const { jiraFixVersions } = require('./mocks');
+// const { jiraFixVersions } = require('./mocks');
 
 const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
 
@@ -23,9 +23,8 @@ const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
 }
 
 module.exports.getScopeFromJiraByFixVersion = async ({ jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern }) => {
-  // const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
-  // const result = await request.json()
-  const result = jiraFixVersions[jiraFixVersion];
+  const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
+  const result = await request.json()
 
   if (result.errorMessages) return result;
 

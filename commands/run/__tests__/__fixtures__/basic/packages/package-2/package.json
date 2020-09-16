@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "echo start package-2",
-    "build": "echo build package-2"
+    "build": "echo build package-2",
+    "my-script": "echo package-2"
   }
 }
