@@ -1,7 +1,9 @@
-"use strict";
 
-const log = require("npmlog");
-const multiLineTrimRight = require("../multi-line-trim-right");
+
+const log = require('npmlog');
+
+const multiLineTrimRight = require('../multi-line-trim-right');
+
 
 module.exports = loggingOutput;
 
@@ -10,13 +12,13 @@ afterEach(() => {
   log.record.length = 0;
 });
 
-function loggingOutput(minLevel = "info") {
+function loggingOutput(minLevel = 'info') {
   // returns an array of log messages at or above the prescribed minLevel
   return (
     log.record
       // select all non-empty info, warn, or error logs
-      .filter(m => log.levels[m.level] >= log.levels[minLevel])
+      .filter((m) => log.levels[m.level] >= log.levels[minLevel])
       // return just the normalized message content
-      .map(m => multiLineTrimRight(m.message || m.prefix))
+      .map((m) => multiLineTrimRight(m.message || m.prefix))
   );
 }

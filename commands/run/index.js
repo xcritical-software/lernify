@@ -1,41 +1,43 @@
-"use strict";
 
-const pMap = require("p-map");
 
-const Command = require("@lerna/command");
-const npmRunScript = require("@lerna/npm-run-script");
-const output = require("@lerna/output");
-const Profiler = require("@lerna/profiler");
-const timer = require("@lerna/timer");
-const runTopologically = require("@lerna/run-topologically");
-const ValidationError = require("@lerna/validation-error");
-const { getFilteredPackages } = require("@lerna/filter-options");
-const { 
-  needShowOtherOptions, 
-  showLinkedIssuesMessage 
-} = require("lernify-utils");
+const pMap = require('p-map');
+
+const Command = require('@lerna/command');
+const npmRunScript = require('@lerna/npm-run-script');
+const output = require('@lerna/output');
+const Profiler = require('@lerna/profiler');
+const timer = require('@lerna/timer');
+const runTopologically = require('@lerna/run-topologically');
+const ValidationError = require('@lerna/validation-error');
+const { getFilteredPackages } = require('@lerna/filter-options');
+const {
+  needShowOtherOptions,
+  showLinkedIssuesMessage,
+} = require('lernify-utils');
 
 
 const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
+
 const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
 
-const getHeaders = ({ jiraUserName, jiraToken }) => {
-  return {
-      'Authorization': `Basic ${Buffer.from(
-        `${jiraUserName}:${jiraToken}`
-      ).toString('base64')}`,
-      'Accept': 'application/json'
-    }
-}
+const getHeaders = ({ jiraUserName, jiraToken }) => ({
+  Authorization: `Basic ${Buffer.from(
+    `${jiraUserName}:${jiraToken}`,
+  ).toString('base64')}`,
+  Accept: 'application/json',
+});
 const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
-  const _url = `${domen}search?jql=fixVersion=${jiraFixVersion}`;
-  return await fetch(_url, {
+  const url = `${domen}search?jql=fixVersion=${jiraFixVersion}`;
+
+  const response = await fetch(url, {
     method: 'GET',
-    headers: getHeaders({ jiraUserName, jiraToken })
-  })
-}
+    headers: getHeaders({ jiraUserName, jiraToken }),
+  });
+
+  return response;
+};
 
 module.exports = factory;
 
@@ -43,74 +45,74 @@ const dummyLogger = {
   notice: () => {},
 };
 
-function factory(argv) {
-  return new RunCommand(argv);
-}
 
 class RunCommand extends Command {
   get requiresGit() {
     return false;
   }
 
-  async getScopeFromJiraByFixVersion({ 
-    jiraUserName, 
-    jiraToken, 
-    jiraFixVersion, 
-    jiraLabelPattern 
+  async getScopeFromJiraByFixVersion({
+    jiraUserName,
+    jiraToken,
+    jiraFixVersion,
+    jiraLabelPattern,
   }) {
     const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
 
     if (request.status !== 200) {
-      throw Error('Api error')
+      throw Error('Api error');
     }
 
-    const result = await request.json()
+    const result = await request.json();
+
     if (result.errorMessages) return result;
-  
+
     const labelsByPattern = [];
-  
+
     const mappedIssues = result.issues.map((issue) => {
       const {
-        fields: { labels, summary, status, assignee },
-        key
+        fields: {
+          labels, summary, status, assignee,
+        },
+        key,
       } = issue;
       const statusName = status.name;
       const assigneeName = assignee.displayName;
-  
-      const _labelsByPattern = jiraLabelPattern
+
+      const issueLabelsByPattern = jiraLabelPattern
         ? multimatch(labels, jiraLabelPattern)
         : labels;
-  
-      labelsByPattern.push(..._labelsByPattern);
-  
+
+      labelsByPattern.push(...issueLabelsByPattern);
+
       return {
         key,
         labels,
         summary,
         status: statusName,
         assignee: assigneeName,
-        hasLabelsByPattern: !!_labelsByPattern.length
+        hasLabelsByPattern: !!issueLabelsByPattern.length,
       };
     });
-  
+
     return {
       labels: labelsByPattern,
-      issues: mappedIssues
-    }
+      issues: mappedIssues,
+    };
   }
 
   async initialize() {
-    const { script, npmClient = "npm" } = this.options;
+    const { script, npmClient = 'npm' } = this.options;
 
     this.options.log = dummyLogger;
     this.script = script;
-    this.args = this.options["--"] || [];
+    this.args = this.options['--'] || [];
     this.npmClient = npmClient;
 
     if (!script) {
       throw new ValidationError(
-        "ENOSCRIPT",
-        "You must specify a lifecycle script to run"
+        'ENOSCRIPT',
+        'You must specify a lifecycle script to run',
       );
     }
 
@@ -119,16 +121,20 @@ class RunCommand extends Command {
     this.prefix = this.options.prefix !== false;
 
     let chain = Promise.resolve();
-    const { jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern } = this.options;
+    const {
+      jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern,
+    } = this.options;
 
     let filteredOptions = this.options;
     let filteredPackages = null;
     this.allPackages = [...this.packageGraph].map(([name]) => name);
+
     if (jiraFixVersion) {
-      if (!jiraUserName || !jiraToken)
+      if (!jiraUserName || !jiraToken) {
         throw Error(
-          "jiraUserName and jiraToken is required for get scope by jiraFixVersion"
+          'jiraUserName and jiraToken is required for get scope by jiraFixVersion',
         );
+      }
 
       const { labels, issues } = await this.getScopeFromJiraByFixVersion({
         jiraUserName,
@@ -146,108 +152,104 @@ class RunCommand extends Command {
       filteredPackages = await getFilteredPackages(
         this.packageGraph,
         this.execOpts,
-        filteredOptions
+        filteredOptions,
       );
 
       showLinkedIssuesMessage(issues, jiraLabelPattern, this.logger);
 
       const jiraLinkedPackagesMessage = `Jira linked packages: ${labels}`;
-      this.logger.info("", jiraLinkedPackagesMessage);
+      this.logger.info('', jiraLinkedPackagesMessage);
       output(jiraLinkedPackagesMessage);
 
       const inJiraButNotExists = labels.filter(
-        (pkg) => !this.allPackages.includes(pkg)
+        (pkg) => !this.allPackages.includes(pkg),
       );
+
       if (inJiraButNotExists.length) {
-        const inJiraButNotExistsMessage = 
-          `Linked packages is not exists in project: ${inJiraButNotExists}`
-        this.logger.warn("", inJiraButNotExistsMessage);
+        const inJiraButNotExistsMessage = `Linked packages is not exists in project: ${inJiraButNotExists}`;
+        this.logger.warn('', inJiraButNotExistsMessage);
         output(inJiraButNotExistsMessage);
       }
 
       const filteredPackagesOtherOpts = await getFilteredPackages(
         this.packageGraph,
         this.execOpts,
-        this.options
+        this.options,
       );
 
       if (needShowOtherOptions(this.options)) {
-        const byOtherPropsMessage = 
-          `Packages by other options: ${filteredPackagesOtherOpts.map(({ name }) => name)}`
-        this.logger.info("", byOtherPropsMessage);
-        output(byOtherPropsMessage)
+        const byOtherPropsMessage = `Packages by other options: ${filteredPackagesOtherOpts.map(({ name }) => name)}`;
+        this.logger.info('', byOtherPropsMessage);
+        output(byOtherPropsMessage);
 
         const inOtherOptsNotInJira = filteredPackagesOtherOpts
           .map((pkg) => pkg.name)
           .filter((pkg) => !labels.includes(pkg));
 
         if (inOtherOptsNotInJira.length) {
-          const inOtherOptsNotInJiraMessage = 
-            `Packages filtered by other options is not linked in jira: ${inOtherOptsNotInJira}`
-          this.logger.warn("", inOtherOptsNotInJiraMessage);
+          const inOtherOptsNotInJiraMessage = `Packages filtered by other options is not linked in jira: ${inOtherOptsNotInJira}`;
+          this.logger.warn('', inOtherOptsNotInJiraMessage);
           output(inOtherOptsNotInJiraMessage);
-
         }
       }
     } else {
       filteredPackages = await getFilteredPackages(
         this.packageGraph,
         this.execOpts,
-        filteredOptions
+        filteredOptions,
       );
     }
 
     chain = chain.then(() => {
-      this.packagesWithScript =
-        script === "env"
-          ? filteredPackages
-          : filteredPackages.filter(
-              (pkg) => pkg.scripts && pkg.scripts[script]
-            );
+      this.packagesWithScript = script === 'env'
+        ? filteredPackages
+        : filteredPackages.filter(
+          (pkg) => pkg.scripts && pkg.scripts[script],
+        );
     });
 
+    // eslint-disable-next-line consistent-return
     return chain.then(() => {
       this.count = this.packagesWithScript.length;
-      this.packagePlural = this.count === 1 ? "package" : "packages";
-      this.joinedCommand = [this.npmClient, "run", this.script]
+      this.packagePlural = this.count === 1 ? 'package' : 'packages';
+      this.joinedCommand = [this.npmClient, 'run', this.script]
         .concat(this.args)
-        .join(" ");
+        .join(' ');
 
       if (!this.count) {
         this.logger.success(
-          "run",
-          `No packages found with the lifecycle script '${script}'`
+          'run',
+          `No packages found with the lifecycle script '${script}'`,
         );
 
         // still exits zero, aka "ok"
         return false;
-      } else {
-        const including = this.packagesWithScript.map((p) => p.name);
-        const excluding = this.allPackages.filter(
-          (pkg) => !including.includes(pkg)
-        );
+      }
 
-        const includingMessage = `including ${including}`
-        this.logger.notice("filter", includingMessage);
-        output(includingMessage)
-        
-        if (excluding.length) {
-          const excludingMessage = `excluding ${excluding}`
-          this.logger.silly("", "excluding %j", excluding);
-          output(excludingMessage)
-        }
+      const including = this.packagesWithScript.map((p) => p.name);
+      const excluding = this.allPackages.filter(
+        (pkg) => !including.includes(pkg),
+      );
 
+      const includingMessage = `including ${including}`;
+      this.logger.notice('filter', includingMessage);
+      output(includingMessage);
+
+      if (excluding.length) {
+        const excludingMessage = `excluding ${excluding}`;
+        this.logger.silly('', 'excluding %j', excluding);
+        output(excludingMessage);
       }
     });
   }
 
   execute() {
     this.logger.info(
-      "",
-      "Executing command in %d %s: %j",
+      '',
+      'Executing command in %d %s: %j',
       this.count,
       this.packagePlural,
-      this.joinedCommand
+      this.joinedCommand,
     );
 
     let chain = Promise.resolve();
@@ -281,9 +283,9 @@ class RunCommand extends Command {
           const exitCode = Math.max(...codes, 1);
 
           this.logger.error(
-            "",
-            "Received non-zero exit code %d during execution",
-            exitCode
+            '',
+            'Received non-zero exit code %d during execution',
+            exitCode,
           );
           process.exitCode = exitCode;
         }
@@ -292,16 +294,16 @@ class RunCommand extends Command {
 
     return chain.then(() => {
       this.logger.success(
-        "run",
+        'run',
         "Ran npm script '%s' in %d %s in %ss:",
         this.script,
         this.count,
         this.packagePlural,
-        (getElapsed() / 1000).toFixed(1)
+        (getElapsed() / 1000).toFixed(1),
       );
       this.logger.success(
-        "",
-        this.packagesWithScript.map((pkg) => `- ${pkg.name}`).join("\n")
+        '',
+        this.packagesWithScript.map((pkg) => `- ${pkg.name}`).join('\n'),
       );
     });
   }
@@ -353,9 +355,7 @@ class RunCommand extends Command {
   }
 
   runScriptInPackagesParallel() {
-    return pMap(this.packagesWithScript, (pkg) =>
-      this.runScriptInPackageStreaming(pkg)
-    );
+    return pMap(this.packagesWithScript, (pkg) => this.runScriptInPackageStreaming(pkg));
   }
 
   runScriptInPackagesLexical() {
@@ -370,17 +370,23 @@ class RunCommand extends Command {
 
   runScriptInPackageCapturing(pkg) {
     const getElapsed = timer();
+
     return npmRunScript(this.script, this.getOpts(pkg)).then((result) => {
       this.logger.info(
-        "run",
+        'run',
         "Ran npm script '%s' in '%s' in %ss:",
         this.script,
         pkg.name,
-        (getElapsed() / 1000).toFixed(1)
+        (getElapsed() / 1000).toFixed(1),
       );
+
       return result;
     });
   }
 }
 
 module.exports.RunCommand = RunCommand;
+
+function factory(argv) {
+  return new RunCommand(argv);
+}

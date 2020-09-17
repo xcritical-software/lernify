@@ -1,9 +1,9 @@
-"use strict";
+
 
 module.exports = {
   plugins: [
     [
-      "module:fast-async",
+      'module:fast-async',
       {
         compiler: {
           es6target: true,

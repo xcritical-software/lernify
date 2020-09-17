@@ -9,12 +9,15 @@
     "lernify": "core/lerna/cli.js"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint --ext .js **/*",
+    "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
     "multimatch": "^4.0.0",
     "node-fetch": "^2.6.1",
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "chalk": "^2.3.1"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
@@ -33,7 +36,9 @@
     "tempy": "^0.2.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "normalize-path": "^3.0.0",
+    "@xcritical/eslint-plugin-xcritical": "3.1.0"
   },
   "engines": {
     "node": ">= 6.9.0"

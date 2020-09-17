@@ -1,9 +1,9 @@
-"use strict";
 
-const log = require("npmlog");
+
+const log = require('npmlog');
 
 // silence logs
-log.level = "silent";
+log.level = 'silent';
 
 // keep snapshots stable
 log.disableColor();

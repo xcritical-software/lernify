@@ -36,6 +36,9 @@
     "@lerna/run-topologically": "3.18.5",
     "@lerna/timer": "3.13.0",
     "@lerna/validation-error": "3.13.0",
-    "p-map": "2.1.0"
+    "p-map": "2.1.0",
+    "node-fetch": "2.6.1",
+    "lernify-utils": "1.0.0",
+    "multimatch": "4.0.0"
   }
 }

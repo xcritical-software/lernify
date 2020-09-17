@@ -1,15 +1,16 @@
-const output = require("@lerna/output");
+const output = require('@lerna/output');
+
 
 module.exports.needShowOtherOptions = function needShowOtherOptions(options) {
-  const otherFilterOption =
-    options.scope ||
-    options.ignore ||
-    options.private ||
-    options.since ||
-    options.excludeDependents ||
-    options.includeDependents ||
-    options.includeDependencies ||
-    options.includeMergedTags;
+  const otherFilterOption = options.scope
+    || options.ignore
+    || options.private
+    || options.since
+    || options.excludeDependents
+    || options.includeDependents
+    || options.includeDependencies
+    || options.includeMergedTags;
+
   return !!otherFilterOption;
 };
 
@@ -18,30 +19,30 @@ const formatMessage = (jiraLabelPattern) => ({
   summary,
   status,
   assignee,
-}) => {
-  return `Issue ${key} ${summary} (Status: ${status}, Assignee: ${assignee}) has not linked package${
-    jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ""
-  }.`;
-};
+}) => `Issue ${key} ${summary} (Status: ${status}, Assignee: ${assignee}) has not linked package${
+  jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ''
+}.`;
 
-module.exports.showLinkedIssuesMessage = function showLinkedIssuesMessage(issues, jiraLabelPattern, logger) {
+function showLinkedIssuesMessage(issues, jiraLabelPattern, logger) {
   const issuesWithoutLabels = issues.filter(
-    ({ hasLabelsByPattern }) => !hasLabelsByPattern
+    ({ hasLabelsByPattern }) => !hasLabelsByPattern,
   );
 
   if (issuesWithoutLabels.length) {
-    const text = issuesWithoutLabels.map(formatMessage(jiraLabelPattern));
-    const withoutLabelMessage = `Issues without label${jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ""}:`
-    logger.warn("", withoutLabelMessage);
-    output(withoutLabelMessage)
+    const texts = issuesWithoutLabels.map(formatMessage(jiraLabelPattern));
+    const withoutLabelMessage = `Issues without label${jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ''}:`;
+    logger.warn('', withoutLabelMessage);
+    output(withoutLabelMessage);
 
-    text.forEach((text) => {
-      logger.warn("", text);
-      output(text)
+    texts.forEach((text) => {
+      logger.warn('', text);
+      output(text);
     });
   } else {
-    const allLinkedMessage = "All issues has linked packages!";
-    logger.success("", allLinkedMessage);
-    output(allLinkedMessage)
+    const allLinkedMessage = 'All issues has linked packages!';
+    logger.success('', allLinkedMessage);
+    output(allLinkedMessage);
   }
 }
+
+module.exports.showLinkedIssuesMessage = showLinkedIssuesMessage;
