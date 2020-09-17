@@ -65,11 +65,11 @@ const release7 = {
 } // 2-3-4 пакета не хватает, 6 и 7 не существует, задача не прилинкована, 
 
 const release8 = {
-  130: [anotherLabel1],
-  131: [anotherLabel2, package2],
-  132: [],
-  133: [package5],
-  134: [package7, package6],
+  135: [anotherLabel1],
+  136: [anotherLabel2, package2],
+  137: [],
+  138: [package5],
+  139: [package7, package6],
 } // 2-3-4 пакета не хватает, 6 и 7 не существует, задача не прилинкована, 
 
 const jiraApiObjCreator = (issues = {}) => {
@@ -77,7 +77,7 @@ const jiraApiObjCreator = (issues = {}) => {
     return {
       fields: {
         labels: labels,
-        summary: `This is test issue to ${labels.join(', ')} labels`,
+        summary: `This is test issue`,
         status: {name: 'Closed'} ,
         assignee: {
           displayName: 'Gnom Gnomich'

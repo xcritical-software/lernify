@@ -42,6 +42,7 @@ const package7 = 'package-7';
 const anotherLabel1 = 'another-label-1'
 const anotherLabel2 = 'another-label-2'
 
+const allLinkedMessage = "All issues has linked packages!";
 
 describe("RunCommand", () => {
   npmRunScript.mockImplementation((script, { pkg }) => Promise.resolve({ code: 0, stdout: pkg.name }));
@@ -108,6 +109,7 @@ describe("RunCommand", () => {
       
       const jiraPackages = [package1, package2, package3, package4, package5]; 
       const res = [
+        allLinkedMessage,
         `Jira linked packages: ${jiraPackages}`,
         `including ${jiraPackages}`
       ];
@@ -126,6 +128,7 @@ describe("RunCommand", () => {
       
       const jiraPackages = [package2, package2, package3, package4, package5]; 
       const res = [
+        allLinkedMessage,
         `Jira linked packages: ${jiraPackages}`,
         `including ${[package2, package3, package4, package5]}`,
         `excluding ${[package1]}`
@@ -145,6 +148,7 @@ describe("RunCommand", () => {
 
       const jiraPackages = [package1, package2, package3, package4, package6, package5]; 
       const res = [
+        allLinkedMessage,
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package6]}`,
         `including ${[package1, package2, package3, package4, package5]}`,
@@ -164,6 +168,7 @@ describe("RunCommand", () => {
 
       const jiraPackages = [package1, package2, package7, package3, package4, package6, package5]; 
       const res = [
+        allLinkedMessage,
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package7,package6]}`,
         `including ${[package1, package2, package3, package4, package5]}`,
@@ -183,6 +188,8 @@ describe("RunCommand", () => {
 
       const jiraPackages = [package1, package3, package4, package5]; 
       const res = [
+        "Issues without label:",
+        "Issue DUMMY-CRM-121 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
         `Jira linked packages: ${jiraPackages}`,
         `including ${[package1, package3, package4, package5]}`,
         `excluding ${[package2]}`,
@@ -202,6 +209,8 @@ describe("RunCommand", () => {
 
       const jiraPackages = [package1, package4, package5, package3, package7, package6]; 
       const res = [
+        "Issues without label:",
+        "Issue DUMMY-CRM-126 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package7, package6]}`,
         `including ${[package1, package3, package4, package5]}`,
@@ -222,6 +231,9 @@ describe("RunCommand", () => {
 
       const jiraPackages = [package1, package5, package7, package6]; 
       const res = [
+        "Issues without label:",
+        "Issue DUMMY-CRM-131 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
+        "Issue DUMMY-CRM-132 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package7, package6]}`,
         `including ${[package1, package5]}`,
@@ -245,6 +257,9 @@ describe("RunCommand", () => {
       
       const jiraPackages = [package1, package5, package7, package6]; 
       const res = [
+        "Issues without label:",
+        "Issue DUMMY-CRM-131 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
+        "Issue DUMMY-CRM-132 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package7, package6]}`,
         `Packages by other options: ${[package3, package4, package5]}`,
@@ -267,6 +282,8 @@ describe("RunCommand", () => {
       
       const jiraPackages = [anotherLabel1, anotherLabel2, package2, package5, package7, package6]; 
       const res = [
+        "Issues without label:",
+        "Issue DUMMY-CRM-137 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package.",
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[anotherLabel1, anotherLabel2, package7, package6]}`,
         `including ${[package2, package5]}`,
@@ -288,6 +305,9 @@ describe("RunCommand", () => {
       
       const jiraPackages = [package2, package5, package7, package6]; 
       const res = [
+        "Issues without label by pattern package-*:",
+        "Issue DUMMY-CRM-135 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package by pattern package-*.",
+        "Issue DUMMY-CRM-137 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package by pattern package-*.",
         `Jira linked packages: ${jiraPackages}`,
         `Linked packages is not exists in project: ${[package7, package6]}`,
         `including ${[package2, package5]}`,

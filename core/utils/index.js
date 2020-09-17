@@ -1,5 +1,4 @@
-module.exports = require('./getScopeFromJiraByFixVersion');
-
+const output = require("@lerna/output");
 
 module.exports.needShowOtherOptions = function needShowOtherOptions(options) {
   const otherFilterOption =
@@ -32,13 +31,17 @@ module.exports.showLinkedIssuesMessage = function showLinkedIssuesMessage(issues
 
   if (issuesWithoutLabels.length) {
     const text = issuesWithoutLabels.map(formatMessage(jiraLabelPattern));
-    logger.warn("", "Issues without label by pattern: ");
+    const withoutLabelMessage = `Issues without label${jiraLabelPattern ? ` by pattern ${jiraLabelPattern}` : ""}:`
+    logger.warn("", withoutLabelMessage);
+    output(withoutLabelMessage)
 
     text.forEach((text) => {
-      logger.useColor();
       logger.warn("", text);
+      output(text)
     });
   } else {
-    logger.success("", "All issues has linked packages!");
+    const allLinkedMessage = "All issues has linked packages!";
+    logger.success("", allLinkedMessage);
+    output(allLinkedMessage)
   }
 }
