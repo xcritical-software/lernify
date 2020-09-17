@@ -6,7 +6,6 @@
     "lerna",
     "command"
   ],
-  "homepage": "https://github.com/lerna/lerna/tree/master/commands/run#readme",
   "license": "MIT",
   "files": [
     "command.js",
@@ -18,11 +17,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lerna/lerna.git",
-    "directory": "commands/run"
   },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1"

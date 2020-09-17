@@ -6,7 +6,6 @@
   ],
   "command": {
     "create": {
-      "homepage": "https://github.com/lerna/lerna",
       "license": "MIT"
     },
     "version": {
@@ -17,5 +16,5 @@
       "message": "chore(release): %s"
     }
   },
-  "version": "3.22.1"
+  "version": "1.0.0"
 }
