@@ -11,10 +11,31 @@ const runTopologically = require("@lerna/run-topologically");
 const ValidationError = require("@lerna/validation-error");
 const { getFilteredPackages } = require("@lerna/filter-options");
 const { 
-  getScopeFromJiraByFixVersion, 
   needShowOtherOptions, 
   showLinkedIssuesMessage 
 } = require("lernify-utils");
+
+
+const fetch = require('node-fetch');
+const multimatch = require('multimatch');
+
+const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
+
+const getHeaders = ({ jiraUserName, jiraToken }) => {
+  return {
+      'Authorization': `Basic ${Buffer.from(
+        `${jiraUserName}:${jiraToken}`
+      ).toString('base64')}`,
+      'Accept': 'application/json'
+    }
+}
+const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
+  const _url = `${domen}search?jql=fixVersion=${jiraFixVersion}`;
+  return await fetch(_url, {
+    method: 'GET',
+    headers: getHeaders({ jiraUserName, jiraToken })
+  })
+}
 
 module.exports = factory;
 
@@ -29,6 +50,53 @@ function factory(argv) {
 class RunCommand extends Command {
   get requiresGit() {
     return false;
+  }
+
+  async getScopeFromJiraByFixVersion({ 
+    jiraUserName, 
+    jiraToken, 
+    jiraFixVersion, 
+    jiraLabelPattern 
+  }) {
+    const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
+
+    if (request.status !== 200) {
+      throw Error('Api error')
+    }
+
+    const result = await request.json()
+    if (result.errorMessages) return result;
+  
+    const labelsByPattern = [];
+  
+    const mappedIssues = result.issues.map((issue) => {
+      const {
+        fields: { labels, summary, status, assignee },
+        key
+      } = issue;
+      const statusName = status.name;
+      const assigneeName = assignee.displayName;
+  
+      const _labelsByPattern = jiraLabelPattern
+        ? multimatch(labels, jiraLabelPattern)
+        : labels;
+  
+      labelsByPattern.push(..._labelsByPattern);
+  
+      return {
+        key,
+        labels,
+        summary,
+        status: statusName,
+        assignee: assigneeName,
+        hasLabelsByPattern: !!_labelsByPattern.length
+      };
+    });
+  
+    return {
+      labels: labelsByPattern,
+      issues: mappedIssues
+    }
   }
 
   async initialize() {
@@ -62,12 +130,13 @@ class RunCommand extends Command {
           "jiraUserName and jiraToken is required for get scope by jiraFixVersion"
         );
 
-      const { labels, issues } = await getScopeFromJiraByFixVersion({
+      const { labels, issues } = await this.getScopeFromJiraByFixVersion({
         jiraUserName,
         jiraToken,
         jiraFixVersion,
         jiraLabelPattern,
       });
+
       filteredOptions = {
         scope: labels,
         continueIfNoMatch: true,
@@ -82,17 +151,18 @@ class RunCommand extends Command {
 
       showLinkedIssuesMessage(issues, jiraLabelPattern, this.logger);
 
-      this.logger.info("", `Jira linked packages: ` + labels);
+      const jiraLinkedPackagesMessage = `Jira linked packages: ${labels}`;
+      this.logger.info("", jiraLinkedPackagesMessage);
+      output(jiraLinkedPackagesMessage);
 
       const inJiraButNotExists = labels.filter(
         (pkg) => !this.allPackages.includes(pkg)
       );
       if (inJiraButNotExists.length) {
-        this.logger.warn(
-          "",
-          `Linked packages is not exists in project: %j`,
-          inJiraButNotExists
-        );
+        const inJiraButNotExistsMessage = 
+          `Linked packages is not exists in project: ${inJiraButNotExists}`
+        this.logger.warn("", inJiraButNotExistsMessage);
+        output(inJiraButNotExistsMessage);
       }
 
       const filteredPackagesOtherOpts = await getFilteredPackages(
@@ -102,21 +172,21 @@ class RunCommand extends Command {
       );
 
       if (needShowOtherOptions(this.options)) {
-        this.logger.info(
-          "",
-          "Packages by other options: " +
-            filteredPackagesOtherOpts.map(({ name }) => name)
-        );
+        const byOtherPropsMessage = 
+          `Packages by other options: ${filteredPackagesOtherOpts.map(({ name }) => name)}`
+        this.logger.info("", byOtherPropsMessage);
+        output(byOtherPropsMessage)
 
         const inOtherOptsNotInJira = filteredPackagesOtherOpts
           .map((pkg) => pkg.name)
           .filter((pkg) => !labels.includes(pkg));
+
         if (inOtherOptsNotInJira.length) {
-          this.logger.warn(
-            "",
-            `Packages filtered by other options is not linked in jira: %j`,
-            inOtherOptsNotInJira
-          );
+          const inOtherOptsNotInJiraMessage = 
+            `Packages filtered by other options is not linked in jira: ${inOtherOptsNotInJira}`
+          this.logger.warn("", inOtherOptsNotInJiraMessage);
+          output(inOtherOptsNotInJiraMessage);
+
         }
       }
     } else {
@@ -157,9 +227,16 @@ class RunCommand extends Command {
           (pkg) => !including.includes(pkg)
         );
 
-        this.logger.notice("filter", "including %j", including);
+        const includingMessage = `including ${including}`
+        this.logger.notice("filter", includingMessage);
+        output(includingMessage)
+        
+        if (excluding.length) {
+          const excludingMessage = `excluding ${excluding}`
+          this.logger.silly("", "excluding %j", excluding);
+          output(excludingMessage)
+        }
 
-        excluding.length && this.logger.silly("", "excluding %j", excluding);
       }
     });
   }
@@ -301,8 +378,6 @@ class RunCommand extends Command {
         pkg.name,
         (getElapsed() / 1000).toFixed(1)
       );
-      output(result.stdout);
-
       return result;
     });
   }
