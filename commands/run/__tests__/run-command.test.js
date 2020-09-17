@@ -5,9 +5,10 @@ jest.mock('@lerna/npm-run-script');
 const npmRunScript = require('@lerna/npm-run-script');
 const output = require('@lerna/output');
 
-const { mockJiraFixVersions } = require('../../../helpers/mock-jira-api');
-const initFixture = require('../../../helpers/init-fixture')(__dirname);
-const lernaRun = require('../../../helpers/command-runner')(require('../command'));
+const { mockJiraFixVersions } = require('@lerna-test/mock-jira-api');
+const initFixture = require('@lerna-test/init-fixture')(__dirname);
+// eslint-disable-next-line import/order
+const lernaRun = require('@lerna-test/command-runner')(require('../command'));
 
 
 jest.mock('node-fetch', () => (url, { headers }) => {

@@ -46,6 +46,7 @@
   "workspaces": [
     "commands/*",
     "core/*",
-    "packages/**"
+    "packages/**",
+    "helpers/**"
   ]
 }

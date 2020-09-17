@@ -1,6 +1,8 @@
 
 
 const pMap = require('p-map');
+const fetch = require('node-fetch');
+const multimatch = require('multimatch');
 
 const Command = require('@lerna/command');
 const npmRunScript = require('@lerna/npm-run-script');
@@ -14,10 +16,6 @@ const {
   needShowOtherOptions,
   showLinkedIssuesMessage,
 } = require('lernify-utils');
-
-
-const fetch = require('node-fetch');
-const multimatch = require('multimatch');
 
 
 const domen = 'https://maxiproject.atlassian.net/rest/api/2/';

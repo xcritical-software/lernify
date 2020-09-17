@@ -34,5 +34,10 @@
     "node-fetch": "2.6.1",
     "lernify-utils": "1.0.0",
     "multimatch": "4.0.0"
+  },
+  "devDependencies": {
+    "@lerna-test/mock-jira-api": "0.0.0-test-only",
+    "@lerna-test/init-fixture": "0.0.0-test-only",
+    "@lerna-test/command-runner": "0.0.0-test-only"
   }
 }
