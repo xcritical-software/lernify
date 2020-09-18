@@ -49,12 +49,8 @@ class RunCommand extends Command {
     return false;
   }
 
-  async getScopeFromJiraByFixVersion({
-    jiraUserName,
-    jiraToken,
-    jiraFixVersion,
-    jiraLabelPattern,
-  }) {
+  async getScopeFromJiraByFixVersion() {
+    const { jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern } = this.options;
     const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
 
     if (request.status !== 200) {
@@ -134,12 +130,7 @@ class RunCommand extends Command {
         );
       }
 
-      const { labels, issues } = await this.getScopeFromJiraByFixVersion({
-        jiraUserName,
-        jiraToken,
-        jiraFixVersion,
-        jiraLabelPattern,
-      });
+      const { labels, issues } = await this.getScopeFromJiraByFixVersion();
 
       filteredOptions = {
         scope: labels,
