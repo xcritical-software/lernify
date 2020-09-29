@@ -1,8 +1,6 @@
 
 
 const pMap = require('p-map');
-const fetch = require('node-fetch');
-const multimatch = require('multimatch');
 
 const Command = require('@lerna/command');
 const npmRunScript = require('@lerna/npm-run-script');
@@ -15,7 +13,7 @@ const { getFilteredPackages } = require('@lerna/filter-options');
 const {
   needShowOtherOptions,
   showLinkedIssuesMessage,
-  getScopeFromJiraByFixVersion
+  getScopeFromJiraByFixVersion,
 } = require('@lernify/atlassian');
 
 
@@ -66,11 +64,11 @@ class RunCommand extends Command {
         );
       }
 
-      const { labels, issues } = await getScopeFromJiraByFixVersion({ 
-        jiraUserName, 
-        jiraToken, 
-        jiraFixVersion, 
-        jiraLabelPattern
+      const { labels, issues } = await getScopeFromJiraByFixVersion({
+        jiraUserName,
+        jiraToken,
+        jiraFixVersion,
+        jiraLabelPattern,
       });
 
       filteredOptions = {

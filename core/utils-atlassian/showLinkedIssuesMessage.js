@@ -1,5 +1,6 @@
 const output = require('@lerna/output');
 
+
 const formatMessage = (jiraLabelPattern) => ({
   key,
   summary,
@@ -29,7 +30,7 @@ function showLinkedIssuesMessage(issues, jiraLabelPattern, logger) {
     logger.success('', allLinkedMessage);
     output(allLinkedMessage);
   }
-};
+}
 
 
 module.exports.showLinkedIssuesMessage = showLinkedIssuesMessage;

@@ -9,13 +9,14 @@ function needShowOtherOptions(options) {
     || options.includeMergedTags;
 
   return !!otherFilterOption;
-};
+}
 
 const { showLinkedIssuesMessage } = require('./showLinkedIssuesMessage');
 const { getScopeFromJiraByFixVersion } = require('./getScopeFromJiraByFixVersion');
 
+
 module.exports = {
   showLinkedIssuesMessage,
   getScopeFromJiraByFixVersion,
-  needShowOtherOptions
-}
+  needShowOtherOptions,
+};
