@@ -1,19 +1,5 @@
 const output = require('@lerna/output');
 
-
-module.exports.needShowOtherOptions = function needShowOtherOptions(options) {
-  const otherFilterOption = options.scope
-    || options.ignore
-    || options.private
-    || options.since
-    || options.excludeDependents
-    || options.includeDependents
-    || options.includeDependencies
-    || options.includeMergedTags;
-
-  return !!otherFilterOption;
-};
-
 const formatMessage = (jiraLabelPattern) => ({
   key,
   summary,
@@ -43,6 +29,7 @@ function showLinkedIssuesMessage(issues, jiraLabelPattern, logger) {
     logger.success('', allLinkedMessage);
     output(allLinkedMessage);
   }
-}
+};
+
 
 module.exports.showLinkedIssuesMessage = showLinkedIssuesMessage;

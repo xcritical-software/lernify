@@ -1,5 +1,5 @@
 {
-  "name": "lernify-utils",
+  "name": "@lernify/atlassian",
   "version": "1.0.0",
   "description": "Utils for lernify",
   "license": "MIT",
