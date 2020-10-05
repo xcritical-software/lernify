@@ -13,7 +13,7 @@
     "test": "jest",
     "ci": "yarn test -- --ci --maxWorkers=2",
     "ci:windows": "jest --ci --maxWorkers=2",
-    "lint": "eslint --ext .js **/*",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --quiet",
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
