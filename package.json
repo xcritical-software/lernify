@@ -9,7 +9,10 @@
     "lernify": "core/lernify/cli.js"
   },
   "scripts": {
+    "pretest": "yarn lint",
     "test": "jest",
+    "ci": "yarn test -- --ci --maxWorkers=2",
+    "ci:windows": "jest --ci --maxWorkers=2",
     "lint": "eslint --ext .js **/*",
     "lint:fix": "yarn lint --fix"
   },
