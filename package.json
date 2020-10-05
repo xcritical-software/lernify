@@ -1,12 +1,12 @@
 {
   "name": "xc-lerna",
   "version": "1.0.0",
-  "description": "XC lerna",
+  "description": "lerna",
   "private": true,
   "repository": {},
   "license": "MIT",
   "bin": {
-    "lernify": "core/lerna/cli.js"
+    "lernify": "core/lernify/cli.js"
   },
   "scripts": {
     "test": "jest",
