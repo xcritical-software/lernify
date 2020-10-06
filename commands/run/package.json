@@ -30,14 +30,14 @@
     "@lerna/run-topologically": "3.18.5",
     "@lerna/timer": "3.13.0",
     "@lerna/validation-error": "3.13.0",
-    "p-map": "2.1.0",
-    "node-fetch": "2.6.1",
     "@lernify/atlassian": "1.0.0",
-    "multimatch": "4.0.0"
+    "multimatch": "4.0.0",
+    "node-fetch": "2.6.1",
+    "p-map": "2.1.0"
   },
   "devDependencies": {
-    "@lerna-test/mock-jira-api": "0.0.0-test-only",
+    "@lerna-test/command-runner": "0.0.0-test-only",
     "@lerna-test/init-fixture": "0.0.0-test-only",
-    "@lerna-test/command-runner": "0.0.0-test-only"
+    "@lerna-test/mock-jira-api": "0.0.0-test-only"
   }
 }
