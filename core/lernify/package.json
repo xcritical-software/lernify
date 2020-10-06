@@ -40,5 +40,8 @@
     "@lernify/run": "1.0.0",
     "import-local": "2.0.0",
     "npmlog": "4.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
