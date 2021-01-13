@@ -2,16 +2,16 @@ const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
 
-const domen = 'https://maxiproject.atlassian.net/rest/api/2/';
-
 const getHeaders = ({ jiraUserName, jiraToken }) => ({
   Authorization: `Basic ${Buffer.from(
     `${jiraUserName}:${jiraToken}`,
   ).toString('base64')}`,
   Accept: 'application/json',
 });
-const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
-  const url = `${domen}search?jql=fixVersion=${jiraFixVersion}`;
+const createRequest = async ({
+  jiraUserName, jiraToken, jiraFixVersion, jiraDomain,
+}) => {
+  const url = `https://${jiraDomain}/rest/api/2/search?jql=fixVersion=${jiraFixVersion}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -22,9 +22,11 @@ const createRequest = async ({ jiraUserName, jiraToken, jiraFixVersion }) => {
 };
 
 const getScopeFromJiraByFixVersion = async ({
-  jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern,
+  jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern, jiraDomain,
 }) => {
-  const request = await createRequest({ jiraUserName, jiraToken, jiraFixVersion });
+  const request = await createRequest({
+    jiraUserName, jiraToken, jiraFixVersion, jiraDomain,
+  });
 
   if (request.status !== 200) {
     throw Error('Api error');

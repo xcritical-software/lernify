@@ -50,7 +50,7 @@ class RunCommand extends Command {
 
     let chain = Promise.resolve();
     const {
-      jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern,
+      jiraUserName, jiraToken, jiraFixVersion, jiraLabelPattern, jiraDomain,
     } = this.options;
 
     let filteredOptions = this.options;
@@ -69,6 +69,7 @@ class RunCommand extends Command {
         jiraToken,
         jiraFixVersion,
         jiraLabelPattern,
+        jiraDomain,
       });
 
       filteredOptions = {
@@ -77,7 +78,7 @@ class RunCommand extends Command {
         log: dummyLogger,
       };
 
-      filteredPackages = await getFilteredPackages(
+      const jiraFilteredPackages = await getFilteredPackages(
         this.packageGraph,
         this.execOpts,
         filteredOptions,
@@ -105,6 +106,16 @@ class RunCommand extends Command {
         this.options,
       );
 
+      const jiraFilteredPackageNames = jiraFilteredPackages
+        .map((pkg) => pkg.name);
+
+      if (this.options.useScopeAndFilterByJira) {
+        filteredPackages = filteredPackagesOtherOpts
+          .filter((pkg) => !jiraFilteredPackageNames.includes(pkg));
+      } else {
+        filteredPackages = jiraFilteredPackages;
+      }
+
       if (needShowOtherOptions(this.options)) {
         const byOtherPropsMessage = `Packages by other options: ${filteredPackagesOtherOpts.map(({ name }) => name)}`;
         this.logger.info('', byOtherPropsMessage);
@@ -112,7 +123,7 @@ class RunCommand extends Command {
 
         const inOtherOptsNotInJira = filteredPackagesOtherOpts
           .map((pkg) => pkg.name)
-          .filter((pkg) => !labels.includes(pkg));
+          .filter((pkg) => !jiraFilteredPackageNames.includes(pkg));
 
         if (inOtherOptsNotInJira.length) {
           const inOtherOptsNotInJiraMessage = `Packages filtered by other options is not linked in jira: ${inOtherOptsNotInJira}`;

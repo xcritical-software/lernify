@@ -72,6 +72,12 @@ exports.builder = (yargs) => {
       jiraFixVersion: {
         describe: 'Full name Fix Version from Jira',
         type: 'string',
+        requiresArg: true,
+      },
+      jiraDomain: {
+        describe: 'Jira domain (supports only Jira Cloud)',
+        type: 'string',
+        requiresArg: true,
       },
       jiraLabelPattern: {
         describe: 'Pattern for filter labels',
@@ -80,10 +86,16 @@ exports.builder = (yargs) => {
       jiraUserName: {
         describe: 'Jira userName (for get linked labels from jira)',
         type: 'string',
+        requiresArg: true,
       },
       jiraToken: {
         describe: 'Jira API token (for get linked labels from jira) https://id.atlassian.com/manage-profile/security/api-tokens',
         type: 'string',
+        requiresArg: true,
+      },
+      useScopeAndFilterByJira: {
+        describe: 'Include only packages with names matching the given given scope and filtered by jira tags.',
+        type: 'boolean',
       },
     });
 
