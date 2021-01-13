@@ -1,6 +1,6 @@
 {
   "name": "lernify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tool for managing JavaScript projects with multiple packages.",
   "keywords": [
     "lernify",
@@ -37,7 +37,7 @@
     "@lerna/list": "3.21.0",
     "@lerna/publish": "3.22.0",
     "@lerna/version": "3.22.1",
-    "@lernify/run": "1.0.0",
+    "@lernify/run": "1.0.1",
     "import-local": "2.0.0",
     "npmlog": "4.1.2"
   },
