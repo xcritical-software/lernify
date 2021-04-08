@@ -84,6 +84,12 @@ class RunCommand extends Command {
         filteredOptions,
       );
 
+      const filteredPackagesOtherOpts = await getFilteredPackages(
+        this.packageGraph,
+        this.execOpts,
+        this.options,
+      );
+
       showLinkedIssuesMessage(issues, jiraLabelPattern, this.logger);
 
       const jiraLinkedPackagesMessage = `Jira linked packages: ${labels}`;
@@ -100,21 +106,17 @@ class RunCommand extends Command {
         output(inJiraButNotExistsMessage);
       }
 
-      const filteredPackagesOtherOpts = await getFilteredPackages(
-        this.packageGraph,
-        this.execOpts,
-        this.options,
-      );
 
       const jiraFilteredPackageNames = jiraFilteredPackages
         .map((pkg) => pkg.name);
 
       if (this.options.useScopeAndFilterByJira) {
         filteredPackages = filteredPackagesOtherOpts
-          .filter((pkg) => !jiraFilteredPackageNames.includes(pkg));
+          .filter((pkg) => jiraFilteredPackageNames.includes(pkg.name));
       } else {
         filteredPackages = jiraFilteredPackages;
       }
+
 
       if (needShowOtherOptions(this.options)) {
         const byOtherPropsMessage = `Packages by other options: ${filteredPackagesOtherOpts.map(({ name }) => name)}`;

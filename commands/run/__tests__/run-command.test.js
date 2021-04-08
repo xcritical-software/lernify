@@ -345,5 +345,33 @@ describe('RunCommand', () => {
 
       expect(logLines).toEqual(res);
     });
+
+    it('8.0.0 Release Without 1-3-4-5 packages and with useScopeAndFilterByJira flag 1', async () => {
+      await lernaRun(testDir)(
+        'start',
+        '--jiraUserName', 'admin',
+        '--jiraToken', '12345',
+        '--jiraFixVersion', '8.0.0',
+        '--jiraLabelPattern', 'package-*',
+        '--scope', 'package-*',
+        '--useScopeAndFilterByJira',
+      );
+      const logLines = output.logged().split('\n');
+
+      const jiraPackages = [package2, package5, package7, package6];
+      const res = [
+        'Issues without label by pattern package-*:',
+        'Issue DUMMY-CRM-135 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package by pattern package-*.',
+        'Issue DUMMY-CRM-137 This is test issue (Status: Closed, Assignee: Gnom Gnomich) has not linked package by pattern package-*.',
+        `Jira linked packages: ${jiraPackages}`,
+        `Linked packages is not exists in project: ${[package7, package6]}`,
+        'Packages by other options: package-1,package-2,package-3,package-4,package-5',
+        'Packages filtered by other options is not linked in jira: package-1,package-3,package-4',
+        `including ${[package2, package5]}`,
+        `excluding ${[package1, package3, package4]}`,
+      ];
+
+      expect(logLines).toEqual(res);
+    });
   });
 });
