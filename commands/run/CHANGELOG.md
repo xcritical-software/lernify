@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/xcritical-software/lernify/compare/v1.0.1...v1.0.2) (2021-04-08)
+
+
+### Bug Fixes
+
+* **run:** fixed filtering of components from jira and local filters ([29bf086](https://github.com/xcritical-software/lernify/commit/29bf086378ea85db224d3a1d20d452cef3c1c669))
+
+
+
+
+
 ## [1.0.1](https://github.com/xcritical-software/lernify/compare/v1.0.0...v1.0.1) (2021-01-13)
 
 

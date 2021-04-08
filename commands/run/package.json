@@ -1,6 +1,6 @@
 {
   "name": "@lernify/run",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Run an npm script in each package that contains that script",
   "keywords": [
     "lerna",
