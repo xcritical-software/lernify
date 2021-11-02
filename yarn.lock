@@ -7197,10 +7197,12 @@ nopt@^4.0.1:
     abbrev "1"
     osenv "^0.1.4"
 
-normalize-newline@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/normalize-newline/-/normalize-newline-3.0.0.tgz#1cbea804aba436001f83938ab21ec039d69ae9d3"
-  integrity sha1-HL6oBKukNgAfg5OKsh7AOdaa6dM=
+normalize-newline@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/normalize-newline/-/normalize-newline-4.1.0.tgz#47576ac687846b67bf1c163e938f1f00a8bacfcb"
+  integrity sha512-ff4jKqMI8Xl50/4Mms/9jPobzAV/UK+kXG2XJ/7AqOmxIx8mqfqTIHYxuAnEgJ2AQeBbLnlbmZ5+38Y9A0w/YA==
+  dependencies:
+    replace-buffer "^1.2.1"
 
 normalize-package-data@^2.0.0, normalize-package-data@^2.3.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.3.5, normalize-package-data@^2.4.0, normalize-package-data@^2.5.0:
   version "2.5.0"
@@ -8437,6 +8439,11 @@ repeating@^2.0.0:
   integrity sha1-UhTFOpJtNVJwdSf7q0FdvAjQbdo=
   dependencies:
     is-finite "^1.0.0"
+
+replace-buffer@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/replace-buffer/-/replace-buffer-1.2.1.tgz#6c188c61445ba91569284b17b8fa119f04a07eb0"
+  integrity sha512-ly3OKwKu+3T55DjP5PjIMzxgz9lFx6dQnBmAIxryZyRKl8f22juy12ShOyuq8WrQE5UlFOseZgQZDua0iF9DHw==
 
 request-promise-core@1.1.4:
   version "1.1.4"
