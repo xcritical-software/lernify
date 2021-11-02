@@ -904,6 +904,17 @@
     npmlog "^4.1.2"
     semver "^6.2.0"
 
+"@lerna/package-graph@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/package-graph/-/package-graph-4.0.0.tgz#16a00253a8ac810f72041481cb46bcee8d8123dd"
+  integrity sha512-QED2ZCTkfXMKFoTGoccwUzjHtZMSf3UKX14A4/kYyBms9xfFsesCZ6SLI5YeySEgcul8iuIWfQFZqRw+Qrjraw==
+  dependencies:
+    "@lerna/prerelease-id-from-version" "4.0.0"
+    "@lerna/validation-error" "4.0.0"
+    npm-package-arg "^8.1.0"
+    npmlog "^4.1.2"
+    semver "^7.3.4"
+
 "@lerna/package@3.16.0":
   version "3.16.0"
   resolved "https://registry.yarnpkg.com/@lerna/package/-/package-3.16.0.tgz#7e0a46e4697ed8b8a9c14d59c7f890e0d38ba13c"
@@ -919,6 +930,13 @@
   integrity sha512-qZyeUyrE59uOK8rKdGn7jQz+9uOpAaF/3hbslJVFL1NqF9ELDTqjCPXivuejMX/lN4OgD6BugTO4cR7UTq/sZA==
   dependencies:
     semver "^6.2.0"
+
+"@lerna/prerelease-id-from-version@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/prerelease-id-from-version/-/prerelease-id-from-version-4.0.0.tgz#c7e0676fcee1950d85630e108eddecdd5b48c916"
+  integrity sha512-GQqguzETdsYRxOSmdFZ6zDBXDErIETWOqomLERRY54f4p+tk4aJjoVdd9xKwehC9TBfIFvlRbL1V9uQGHh1opg==
+  dependencies:
+    semver "^7.3.4"
 
 "@lerna/profiler@3.20.0":
   version "3.20.0"
@@ -1043,6 +1061,13 @@
     "@lerna/package-graph" "3.18.5"
     figgy-pudding "^3.5.1"
 
+"@lerna/query-graph@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/query-graph/-/query-graph-4.0.0.tgz#09dd1c819ac5ee3f38db23931143701f8a6eef63"
+  integrity sha512-YlP6yI3tM4WbBmL9GCmNDoeQyzcyg1e4W96y/PKMZa5GbyUvkS2+Jc2kwPD+5KcXou3wQZxSPzR3Te5OenaDdg==
+  dependencies:
+    "@lerna/package-graph" "4.0.0"
+
 "@lerna/resolve-symlink@3.16.0":
   version "3.16.0"
   resolved "https://registry.yarnpkg.com/@lerna/resolve-symlink/-/resolve-symlink-3.16.0.tgz#37fc7095fabdbcf317c26eb74e0d0bde8efd2386"
@@ -1080,6 +1105,14 @@
     "@lerna/query-graph" "3.18.5"
     figgy-pudding "^3.5.1"
     p-queue "^4.0.0"
+
+"@lerna/run-topologically@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/run-topologically/-/run-topologically-4.0.0.tgz#af846eeee1a09b0c2be0d1bfb5ef0f7b04bb1827"
+  integrity sha512-EVZw9hGwo+5yp+VL94+NXRYisqgAlj0jWKWtAIynDCpghRxCE5GMO3xrQLmQgqkpUl9ZxQFpICgYv5DW4DksQA==
+  dependencies:
+    "@lerna/query-graph" "4.0.0"
+    p-queue "^6.6.2"
 
 "@lerna/run@3.21.0":
   version "3.21.0"
@@ -1128,6 +1161,13 @@
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@lerna/validation-error/-/validation-error-3.13.0.tgz#c86b8f07c5ab9539f775bd8a54976e926f3759c3"
   integrity sha512-SiJP75nwB8GhgwLKQfdkSnDufAaCbkZWJqEDlKOUPUvVOplRGnfL+BPQZH5nvq2BYSRXsksXWZ4UHVnQZI/HYA==
+  dependencies:
+    npmlog "^4.1.2"
+
+"@lerna/validation-error@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/validation-error/-/validation-error-4.0.0.tgz#af9d62fe8304eaa2eb9a6ba1394f9aa807026d35"
+  integrity sha512-1rBOM5/koiVWlRi3V6dB863E1YzJS8v41UtsHgMr6gB2ncJ2LsQtMKlJpi3voqcgh41H8UsPXR58RrrpPpufyw==
   dependencies:
     npmlog "^4.1.2"
 
@@ -4201,7 +4241,7 @@ eventemitter3@^3.1.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
   integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
 
-eventemitter3@^4.0.0:
+eventemitter3@^4.0.0, eventemitter3@^4.0.4:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
@@ -5020,6 +5060,13 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.7.1:
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
   integrity sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
+
+hosted-git-info@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-4.0.2.tgz#5e425507eede4fea846b7262f0838456c4209961"
+  integrity sha512-c9OGXbZ3guC/xOlCg1Ci/VgWlwsqDv1yMQL1CWqXDL0hDjXuNcq0zuR4xqPSuasI3kqFDhqSyTjREz5gzq0fXg==
+  dependencies:
+    lru-cache "^6.0.0"
 
 hpack.js@^2.1.6:
   version "2.1.6"
@@ -7265,6 +7312,15 @@ npm-normalize-package-bin@^1.0.0, npm-normalize-package-bin@^1.0.1:
     semver "^5.6.0"
     validate-npm-package-name "^3.0.0"
 
+npm-package-arg@^8.1.0:
+  version "8.1.5"
+  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-8.1.5.tgz#3369b2d5fe8fdc674baa7f1786514ddc15466e44"
+  integrity sha512-LhgZrg0n0VgvzVdSm1oiZworPbTxYHUJCgtsJW8mGvlDpxTM1vSJc3m5QZeUkhAHIzbz3VCHd/R4osi1L1Tg/Q==
+  dependencies:
+    hosted-git-info "^4.0.1"
+    semver "^7.3.4"
+    validate-npm-package-name "^3.0.0"
+
 npm-packlist@^1.4.4:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.4.8.tgz#56ee6cc135b9f98ad3d51c1c95da22bbb9b2ef3e"
@@ -7605,6 +7661,14 @@ p-queue@^4.0.0:
   dependencies:
     eventemitter3 "^3.1.0"
 
+p-queue@^6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-6.6.2.tgz#2068a9dcf8e67dd0ec3e7a2bcb76810faa85e426"
+  integrity sha512-RwFpb72c/BhQLEXIZ5K2e+AhgNVmIejGlTgiB9MzZ0e93GRvqZ7uSi0dvRF7/XIXDeNkra2fNHBxTyPDGySpjQ==
+  dependencies:
+    eventemitter3 "^4.0.4"
+    p-timeout "^3.2.0"
+
 p-reduce@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-reduce/-/p-reduce-1.0.0.tgz#18c2b0dd936a4690a529f8231f58a0fdb6a47dfa"
@@ -7616,6 +7680,13 @@ p-retry@^3.0.1:
   integrity sha512-XE6G4+YTTkT2a0UWb2kjZe8xNwf8bIbnqpc/IS/idOBVhyves0mK5OJgeocjx7q5pvX/6m23xuzVPYT1uGM73w==
   dependencies:
     retry "^0.12.0"
+
+p-timeout@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-3.2.0.tgz#c7e17abc971d2a7962ef83626b35d635acf23dfe"
+  integrity sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==
+  dependencies:
+    p-finally "^1.0.0"
 
 p-try@^1.0.0:
   version "1.0.0"
@@ -8716,6 +8787,13 @@ semver@^7.2.1, semver@^7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938"
   integrity sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
+
+semver@^7.3.4:
+  version "7.3.5"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.5.tgz#0b621c879348d8998e4b0e4be94b3f12e6018ef7"
+  integrity sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==
+  dependencies:
+    lru-cache "^6.0.0"
 
 send@0.17.1:
   version "0.17.1"
