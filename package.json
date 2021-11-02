@@ -17,7 +17,7 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
-    "multimatch": "^4.0.0",
+    "multimatch": "^6.0.0",
     "node-fetch": "^2.6.1",
     "lerna": "^3.22.1",
     "chalk": "^2.3.1"
