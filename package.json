@@ -32,7 +32,7 @@
     "html-webpack-plugin": "^4.4.1",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
-    "normalize-newline": "^3.0.0",
+    "normalize-newline": "^4.1.0",
     "npmlog": "^4.1.2",
     "sinon": "^9.0.3",
     "temp-write": "^3.4.0",
