@@ -39,7 +39,7 @@
     "tempy": "^0.2.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^4.7.0",
     "normalize-path": "^3.0.0",
     "@xcritical/eslint-plugin-xcritical": "3.1.0"
   },
