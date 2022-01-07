@@ -38,7 +38,7 @@
     "@lerna/publish": "3.22.0",
     "@lerna/version": "3.22.1",
     "@lernify/run": "1.0.2",
-    "import-local": "2.0.0",
+    "import-local": "3.1.0",
     "npmlog": "4.1.2"
   },
   "publishConfig": {
