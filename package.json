@@ -41,7 +41,7 @@
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.0",
     "normalize-path": "^3.0.0",
-    "@xcritical/eslint-plugin-xcritical": "3.1.0"
+    "@xcritical/eslint-plugin-xcritical": "4.2.1"
   },
   "engines": {
     "node": ">= 6.9.0"
