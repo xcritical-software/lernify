@@ -33,7 +33,7 @@
     "@lernify/atlassian": "1.0.1",
     "multimatch": "4.0.0",
     "node-fetch": "2.6.1",
-    "p-map": "2.1.0"
+    "p-map": "5.4.0"
   },
   "devDependencies": {
     "@lerna-test/command-runner": "0.0.0-test-only",
