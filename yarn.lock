@@ -1131,6 +1131,13 @@
   dependencies:
     npmlog "^4.1.2"
 
+"@lerna/validation-error@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/validation-error/-/validation-error-5.0.0.tgz#3d3557023e3eb2fd3d8fc9c89f7352a1b6e5bd3e"
+  integrity sha512-fu/MhqRXiRQM2cirP/HoSkfwc5XtJ21G60WHv74RnanKBqWEZAUALWa3MQN2sYhVV/FpDW3GLkO008IW5NWzdg==
+  dependencies:
+    npmlog "^4.1.2"
+
 "@lerna/version@3.22.0":
   version "3.22.0"
   resolved "https://registry.yarnpkg.com/@lerna/version/-/version-3.22.0.tgz#67e1340c1904e9b339becd66429f32dd8ad65a55"
