@@ -879,6 +879,13 @@
   dependencies:
     npmlog "^4.1.2"
 
+"@lerna/output@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@lerna/output/-/output-5.0.0.tgz#f3712f0cad3e9ef73c803fe368f6a9ac20403868"
+  integrity sha512-/7sUJQWPcvnLudjVIdN7t9MlfBLuP4JCDAWgQMqZe+wpQRuKNyKQ5dLBH5NHU/ElJCjAwMPfWuk3mh3GuvuiGA==
+  dependencies:
+    npmlog "^4.1.2"
+
 "@lerna/pack-directory@3.16.4":
   version "3.16.4"
   resolved "https://registry.yarnpkg.com/@lerna/pack-directory/-/pack-directory-3.16.4.tgz#3eae5f91bdf5acfe0384510ed53faddc4c074693"
