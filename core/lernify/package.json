@@ -29,7 +29,7 @@
     "@lerna/cli": "3.18.5",
     "@lerna/create": "3.22.0",
     "@lerna/diff": "3.21.0",
-    "@lerna/exec": "3.21.0",
+    "@lerna/exec": "5.1.4",
     "@lerna/import": "3.21.0",
     "@lerna/info": "3.21.0",
     "@lerna/init": "3.21.0",
