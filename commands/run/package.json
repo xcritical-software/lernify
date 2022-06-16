@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@lerna/command": "3.21.0",
-    "@lerna/filter-options": "3.20.0",
+    "@lerna/filter-options": "5.1.4",
     "@lerna/npm-run-script": "3.16.5",
     "@lerna/output": "3.13.0",
     "@lerna/profiler": "3.20.0",
