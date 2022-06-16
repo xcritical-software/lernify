@@ -24,7 +24,7 @@
   "dependencies": {
     "@lerna/add": "3.21.0",
     "@lerna/bootstrap": "3.21.0",
-    "@lerna/changed": "3.21.0",
+    "@lerna/changed": "5.1.4",
     "@lerna/clean": "3.21.0",
     "@lerna/cli": "3.18.5",
     "@lerna/create": "3.22.0",
