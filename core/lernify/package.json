@@ -33,7 +33,7 @@
     "@lerna/import": "3.21.0",
     "@lerna/info": "3.21.0",
     "@lerna/init": "3.21.0",
-    "@lerna/link": "3.21.0",
+    "@lerna/link": "5.1.7",
     "@lerna/list": "3.21.0",
     "@lerna/publish": "3.22.0",
     "@lerna/version": "3.22.1",
