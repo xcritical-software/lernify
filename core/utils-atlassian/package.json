@@ -4,7 +4,7 @@
   "description": "Utils for lernify",
   "license": "MIT",
   "dependencies": {
-    "@lerna/output": "3.13.0",
+    "@lerna/output": "5.5.2",
     "multimatch": "4.0.0",
     "node-fetch": "2.6.1"
   },
