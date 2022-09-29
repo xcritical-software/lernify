@@ -25,7 +25,7 @@
     "@lerna/add": "3.21.0",
     "@lerna/bootstrap": "3.21.0",
     "@lerna/changed": "3.21.0",
-    "@lerna/clean": "3.21.0",
+    "@lerna/clean": "5.5.4",
     "@lerna/cli": "3.18.5",
     "@lerna/create": "3.22.0",
     "@lerna/diff": "3.21.0",
