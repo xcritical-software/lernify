@@ -22,7 +22,7 @@
     "test": "echo \"Run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@lerna/add": "3.21.0",
+    "@lerna/add": "5.6.0",
     "@lerna/bootstrap": "3.21.0",
     "@lerna/changed": "3.21.0",
     "@lerna/clean": "3.21.0",
