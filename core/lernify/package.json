@@ -35,7 +35,7 @@
     "@lerna/init": "3.21.0",
     "@lerna/link": "3.21.0",
     "@lerna/list": "3.21.0",
-    "@lerna/publish": "3.22.0",
+    "@lerna/publish": "5.6.1",
     "@lerna/version": "3.22.1",
     "@lernify/run": "1.0.2",
     "import-local": "2.0.0",
