@@ -26,7 +26,7 @@
     "@lerna/filter-options": "3.20.0",
     "@lerna/npm-run-script": "3.16.5",
     "@lerna/output": "3.13.0",
-    "@lerna/profiler": "3.20.0",
+    "@lerna/profiler": "5.6.2",
     "@lerna/run-topologically": "3.18.5",
     "@lerna/timer": "3.13.0",
     "@lerna/validation-error": "3.13.0",
