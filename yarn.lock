@@ -1124,6 +1124,11 @@
   resolved "https://registry.yarnpkg.com/@lerna/timer/-/timer-3.13.0.tgz#bcd0904551db16e08364d6c18e5e2160fc870781"
   integrity sha512-RHWrDl8U4XNPqY5MQHkToWS9jHPnkLZEt5VD+uunCKTfzlxGnRCr3/zVr8VGy/uENMYpVP3wJa4RKGY6M0vkRw==
 
+"@lerna/timer@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@lerna/timer/-/timer-6.0.1.tgz#eb10242c48a1246e1bf216af305974fbd6332d39"
+  integrity sha512-FLoga8iprKmRkh9jO+LP4Bm7MZLO4wNHM4LML4Dlh9CPwcIOWTteI8wSgRXvEJpt33IRIoPOUnfL3iHh8WwaYA==
+
 "@lerna/validation-error@3.13.0":
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@lerna/validation-error/-/validation-error-3.13.0.tgz#c86b8f07c5ab9539f775bd8a54976e926f3759c3"
