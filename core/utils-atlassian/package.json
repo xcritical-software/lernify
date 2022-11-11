@@ -6,7 +6,7 @@
   "dependencies": {
     "@lerna/output": "3.13.0",
     "multimatch": "4.0.0",
-    "node-fetch": "2.6.1"
+    "node-fetch": "3.3.0"
   },
   "publishConfig": {
     "access": "public"
