@@ -22,7 +22,7 @@
     "test": "echo \"Run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@lerna/command": "3.21.0",
+    "@lerna/command": "6.4.0",
     "@lerna/filter-options": "3.20.0",
     "@lerna/npm-run-script": "3.16.5",
     "@lerna/output": "3.13.0",
