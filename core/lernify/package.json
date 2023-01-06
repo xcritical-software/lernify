@@ -30,7 +30,7 @@
     "@lerna/create": "3.22.0",
     "@lerna/diff": "3.21.0",
     "@lerna/exec": "3.21.0",
-    "@lerna/import": "3.21.0",
+    "@lerna/import": "6.4.0",
     "@lerna/info": "3.21.0",
     "@lerna/init": "3.21.0",
     "@lerna/link": "3.21.0",
