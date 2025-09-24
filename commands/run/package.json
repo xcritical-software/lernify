@@ -1,6 +1,6 @@
 {
   "name": "@lernify/run",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Run an npm script in each package that contains that script",
   "keywords": [
     "lerna",
@@ -30,7 +30,7 @@
     "@lerna/run-topologically": "3.18.5",
     "@lerna/timer": "3.13.0",
     "@lerna/validation-error": "3.13.0",
-    "@lernify/atlassian": "1.0.1",
+    "@lernify/atlassian": "1.1.0",
     "multimatch": "4.0.0",
     "node-fetch": "2.6.1",
     "p-map": "2.1.0"
