@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const multimatch = require('multimatch');
 
+// This module uses Jira REST API v3
+
 
 const getHeaders = ({ jiraUserName, jiraToken }) => ({
   Authorization: `Basic ${Buffer.from(
@@ -11,7 +13,9 @@ const getHeaders = ({ jiraUserName, jiraToken }) => ({
 const createRequest = async ({
   jiraUserName, jiraToken, jiraFixVersion, jiraDomain,
 }) => {
-  const url = `https://${jiraDomain}/rest/api/2/search?jql=fixVersion=${jiraFixVersion}`;
+  const fields = 'labels,summary,status,assignee,key';
+  const maxResults = 100; // Limit results per page
+  const url = `https://${jiraDomain}/rest/api/3/search/jql?jql=fixVersion=${jiraFixVersion}&fields=${fields}&maxResults=${maxResults}`;
 
   const response = await fetch(url, {
     method: 'GET',
@@ -29,12 +33,19 @@ const getScopeFromJiraByFixVersion = async ({
   });
 
   if (request.status !== 200) {
-    throw Error('Api error');
+    const errorText = await request.text();
+    throw new Error(`Jira API v3 error (${request.status}): ${errorText}`);
   }
 
   const result = await request.json();
 
   if (result.errorMessages) return result;
+
+  // Note: API v3 may return paginated results with isLast field
+  // This implementation processes the first page only
+  if (!result.isLast && result.issues && result.issues.length > 0) {
+    console.warn('Warning: Results may be paginated. Only processing first page.');
+  }
 
   const labelsByPattern = [];
 
@@ -46,7 +57,7 @@ const getScopeFromJiraByFixVersion = async ({
       key,
     } = issue;
     const statusName = status.name;
-    const assigneeName = assignee.displayName;
+    const assigneeName = assignee ? assignee.displayName : 'Unassigned';
 
     const issueLabelsByPattern = jiraLabelPattern
       ? multimatch(labels, jiraLabelPattern)
